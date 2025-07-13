@@ -39,6 +39,18 @@ Each member in the ring holds an RSA key pair. The real signer uses their privat
 
 The verifier can check that someone in the group signed the message — but not who.
 
+
+| Step | Description                                                                                                   |
+| ---- | ------------------------------------------------------------------------------------------------------------- |
+| 1    | $k = \text{Hash}(M)$                                                                                          |
+| 2    | Generate random $u$, then $v = k \oplus u$                                                                    |
+| 3    | For each $i \ne z$, pick random $s_i$, compute $e_i = s_i^{e_i} \mod N_i$, update $v \leftarrow v \oplus e_i$ |
+| 4    | Signer computes $s_z = (v \oplus u)^{d_z} \mod N_z$                                                           |
+| 5    | Signature = $\{ s_i \}, v$                                                                                    |
+| 6    | Verifier recovers $u$, recomputes $v$ via chaining, checks match                                              |
+
+
+
 ### 🧠 Key Concepts
 ```
 RingSignature class implements the ring signature algorithm.
