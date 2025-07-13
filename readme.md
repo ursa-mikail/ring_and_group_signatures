@@ -6,10 +6,18 @@ This project demonstrates the creation and verification of **ring signatures** u
 - The signature is verifiable as coming from the group,
 - But the actual signer remains anonymous within the group.
 
+Signer wants to sign a message from the group. He initially generates a random value v, and generates random values (s_i) for each of the other participants, but takes his own secret key (s_i and uses it to determine a different secret key, and which reverse of the encryption function. 
 
-1. Generate encryption with k=Hash(message)
+Each of the random values for the other participants are encrypted with the public key of the given participant. 
+
+Signer computes the value of y_s in order to create the ring (the result of the ring must equal v). He will inverse this value to produce the equivalent private key (x_s). Signer releases the overall signature, and the random x values, along with the computed secret key. 
+
+1. Generate encryption with k = Hash(message) 
+Note: Signer takes the message and takes a hash of it, and creates a key (k).
+This key will be used with symmetric encryption to encrypt each of the elements of the ring (E_k, and each element of the ring uses an XOR function from the previous element.
+
 2. Generate a random value (u).
-3. Encrypt u to give v = Ek(u).
+3. Encrypt u to give $$\ v = E_k(u) \$$.
 4. For each person (apart from the sender):
 	4.1. Calculate $$\ e = s_i ^{Pi} (mod N_i) \$$ and where $$\ s_i \$$ is the random number generated for the secret key of the ith party, and $$\ P_i \$$ is the public key of the party.
 	4.2 Calculate $$\ v = v⊕e \$$
@@ -17,6 +25,7 @@ This project demonstrates the creation and verification of **ring signatures** u
 
 We will end up with the signature (v=Ek(u)), and which completes the ring.
 
+To check the signature, the receiver computes the ring, and checks that the result matches the sent signature.
 
 ✅ The actual signer is designated by index signer_index passed to .sign().
 
