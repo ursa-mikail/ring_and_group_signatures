@@ -16,14 +16,83 @@ Signer computes the value of y_s in order to create the ring (the result of the 
 Note: Signer takes the message and takes a hash of it, and creates a key (k).
 This key will be used with symmetric encryption to encrypt each of the elements of the ring (E_k, and each element of the ring uses an XOR function from the previous element.
 
+This is a symmetric key (e.g., 256-bit) used for lightweight operations like XOR chaining. It’s not RSA.
+
 2. Generate a random value (u).
+Let $$\ u ∈ {0,1}^k \$$ be a random bitstring of same size as key 𝑘.
+
 3. Encrypt u to give $$\ v = E_k(u) \$$.
+
+Encrypt u with Symmetric Key
+
+Compute $$ v $$ using XOR:
+
+$$
+v = E_k(u) = k \oplus u
+$$
+
+This value will be updated during the ring creation.
+
 4. For each person (apart from the sender):
 	4.1. Calculate $$\ e = s_i ^{Pi} (mod N_i) \$$ and where $$\ s_i \$$ is the random number generated for the secret key of the ith party, and $$\ P_i \$$ is the public key of the party.
 	4.2 Calculate $$\ v = v⊕e \$$
+
+🧮 Step 4: Simulate Encryption for All Other Members
+
+For each participant $$ i \neq z $$:
+
+1. Choose a random value:
+
+$$
+s_i \in \mathbb{Z}_{N_i}^*
+$$
+
+2. Simulate public encryption:
+
+$$
+e_i = s_i^{e_i} \mod N_i
+$$
+
+3. Update $$ v $$ via XOR chaining:
+
+$$
+v = v \oplus e_i
+$$
+
+---
+
 5. For the signed party (z), calculate $$\ s_z = (v⊕u)^d (mod N_z) \$$ and where d is the secret key of the signing party.
 
 We will end up with the signature (v=Ek(u)), and which completes the ring.
+
+Compute the Real Signer's Value
+
+To complete the ring, compute the actual signer's value $$ s_z $$:
+
+$$
+s_z = (v \oplus u)^{d_z} \mod N_z
+$$
+
+This ensures the total XOR chain wraps around correctly.
+
+---
+
+✅ Final Signature Output
+
+The final signature consists of:
+
+- The list $$ \{ s_0, s_1, \dots, s_{n-1} \} $$
+  - Where only $$ s_z $$ was computed using the private key,
+  - All other $$ s_i $$ are random.
+- The value $$ v $$.
+
+Thus, the signature is:
+
+$$
+\sigma = (v, \{ s_i \})
+$$
+
+---
 
 To check the signature, the receiver computes the ring, and checks that the result matches the sent signature.
 
