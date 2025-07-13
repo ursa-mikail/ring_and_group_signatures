@@ -7,6 +7,17 @@ This project demonstrates the creation and verification of **ring signatures** u
 - But the actual signer remains anonymous within the group.
 
 
+1. Generate encryption with k=Hash(message)
+2. Generate a random value (u).
+3. Encrypt u to give v = Ek(u).
+4. For each person (apart from the sender):
+	4.1. Calculate $$\ e = s_i ^{Pi} (mod N_i) \$$ and where $$\ s_i \$$ is the random number generated for the secret key of the ith party, and $$\ P_i \$$ is the public key of the party.
+	4.2 Calculate $$\ v = v⊕e \$$
+5. For the signed party (z), calculate $$\ s_z = (v⊕u)^d (mod N_z) \$$ and where d is the secret key of the signing party.
+
+We will end up with the signature (v=Ek(u)), and which completes the ring.
+
+
 ✅ The actual signer is designated by index signer_index passed to .sign().
 
 🛠️ To add more signers, just increase num_participants and provide more RSA keys via generate_rsa_keys(...).
