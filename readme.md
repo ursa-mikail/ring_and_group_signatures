@@ -98,37 +98,37 @@ To check the signature, the receiver computes the ring, and checks that the resu
 
 🔍 Signature Verification
 
-To verify a signature $$ \sigma = (v, \{ s_i \}) $$ on message $$ M $$:
+To verify a signature $$ \sigma = (v, \{ s_i \}) \$$ on message $$\ M \$$:
 
 1. Recompute the symmetric key:
 
-$$
+$$\
 k = \text{Hash}(M)
-$$
+\$$
 
-2. Recover $$ u $$:
+2. Recover $$\ u \$$:
 
-$$
+$$\
 u = D_k(v) = k \oplus v
-$$
+\$$
 
-3. For each $$ i $$, compute:
+3. For each $$\ i \$$, compute:
 
-$$
+$$\
 e_i' = s_i^{e_i} \mod N_i
-$$
+\$$
 
 4. Recompute $$ v' $$ via chaining:
 
-$$
+$$\
 v' = e_0' \oplus e_1' \oplus \dots \oplus e_{n-1}' \oplus u
-$$
+\$$
 
 5. Check if:
 
-$$
+$$\
 v' = v
-$$
+\$$
 
 If this holds, the signature is valid.
 
