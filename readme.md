@@ -96,6 +96,45 @@ $$
 
 To check the signature, the receiver computes the ring, and checks that the result matches the sent signature.
 
+🔍 Signature Verification
+
+To verify a signature $$ \sigma = (v, \{ s_i \}) $$ on message $$ M $$:
+
+1. Recompute the symmetric key:
+
+$$
+k = \text{Hash}(M)
+$$
+
+2. Recover $$ u $$:
+
+$$
+u = D_k(v) = k \oplus v
+$$
+
+3. For each $$ i $$, compute:
+
+$$
+e_i' = s_i^{e_i} \mod N_i
+$$
+
+4. Recompute $$ v' $$ via chaining:
+
+$$
+v' = e_0' \oplus e_1' \oplus \dots \oplus e_{n-1}' \oplus u
+$$
+
+5. Check if:
+
+$$
+v' = v
+$$
+
+If this holds, the signature is valid.
+
+---
+
+
 ✅ The actual signer is designated by index signer_index passed to .sign().
 
 🛠️ To add more signers, just increase num_participants and provide more RSA keys via generate_rsa_keys(...).
