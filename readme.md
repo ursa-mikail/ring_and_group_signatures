@@ -25,11 +25,11 @@ Let $$\ u ∈ {0,1}^k \$$ be a random bitstring of same size as key 𝑘.
 
 Encrypt u with Symmetric Key
 
-Compute $$ v $$ using XOR:
+Compute $$\ v \$$ using XOR:
 
-$$
+$$\
 v = E_k(u) = k \oplus u
-$$
+\$$
 
 This value will be updated during the ring creation.
 
@@ -43,21 +43,21 @@ For each participant $$ i \neq z $$:
 
 1. Choose a random value:
 
-$$
+$$\
 s_i \in \mathbb{Z}_{N_i}^*
-$$
+\$$
 
 2. Simulate public encryption:
 
-$$
+$$\
 e_i = s_i^{e_i} \mod N_i
-$$
+\$$
 
-3. Update $$ v $$ via XOR chaining:
+3. Update $$\ v \$$ via XOR chaining:
 
-$$
+$$\
 v = v \oplus e_i
-$$
+\$$
 
 ---
 
@@ -67,11 +67,11 @@ We will end up with the signature (v=Ek(u)), and which completes the ring.
 
 Compute the Real Signer's Value
 
-To complete the ring, compute the actual signer's value $$ s_z $$:
+To complete the ring, compute the actual signer's value $$\ s_z \$$:
 
-$$
+$$\
 s_z = (v \oplus u)^{d_z} \mod N_z
-$$
+\$$
 
 This ensures the total XOR chain wraps around correctly.
 
@@ -81,16 +81,16 @@ This ensures the total XOR chain wraps around correctly.
 
 The final signature consists of:
 
-- The list $$ \{ s_0, s_1, \dots, s_{n-1} \} $$
-  - Where only $$ s_z $$ was computed using the private key,
-  - All other $$ s_i $$ are random.
-- The value $$ v $$.
+- The list $$\ \{ s_0, s_1, \dots, s_{n-1} \} \$$
+  - Where only $$\ s_z \$$ was computed using the private key,
+  - All other $$\ s_i \$$ are random.
+- The value $$\ v \$$.
 
 Thus, the signature is:
 
-$$
+$$\
 \sigma = (v, \{ s_i \})
-$$
+\$$
 
 ---
 
