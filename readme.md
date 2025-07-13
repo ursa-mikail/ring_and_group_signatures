@@ -98,7 +98,7 @@ To check the signature, the receiver computes the ring, and checks that the resu
 
 🔍 Signature Verification
 
-To verify a signature $$ \sigma = (v, \{ s_i \}) \$$ on message $$\ M \$$:
+To verify a signature $$\ \sigma = (v, \{ s_i \}) \$$ on message $$\ M \$$:
 
 1. Recompute the symmetric key:
 
